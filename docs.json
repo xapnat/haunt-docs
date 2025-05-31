@@ -24,7 +24,9 @@
             "group": "Guides",
             "pages": [
               "guides/assets",
-              "guides/discord"
+              "guides/badges",
+              "guides/discord",
+              "guides/verification"
             ]
           },
           {

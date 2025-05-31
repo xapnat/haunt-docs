@@ -19,6 +19,12 @@
               "overview/introduction",
               "overview/changelog"
             ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "guides/discord"
+            ]
           }
         ]
       },

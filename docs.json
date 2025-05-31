@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "maple",
+  "theme": "almond",
   "name": "Haunt.gg Documentation",
   "colors": {
     "primary": "#F27DB3",

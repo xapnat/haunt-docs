@@ -1,0 +1,47 @@
+---
+title: 'Introduction'
+description: 'Haunt.gg API Reference Documentation'
+---
+
+<Note>
+  Welcome to the Haunt.gg API documentation. This section covers all available endpoints for user lookups and leaderboard functionality.
+</Note>
+
+## Welcome
+
+The Haunt.gg API provides access to user profiles and leaderboard data. All endpoints use API key authentication and return JSON responses.
+
+**Base URL:** `https://haunt.gg/api`
+
+## Available Endpoints
+
+### **Lookup Endpoints**
+Retrieve detailed user information including profile data, badges, links, and audio tracks.
+
+- `GET /lookup/username/{username}` - Look up user by username
+- `GET /lookup/uid/{uid}` - Look up user by user ID
+
+### **Leaderboard Endpoints**  
+Access leaderboard rankings with user statistics.
+
+- `GET /leaderboard/views` - Get users ranked by profile views
+- `GET /leaderboard/badges` - Get users ranked by badge count
+- `GET /leaderboard/uid` - Get users ranked by UID
+
+## Authentication
+
+All API endpoints require an API key passed as a query parameter:
+
+```bash
+curl "https://haunt.gg/api/lookup/username/curet?key=YOUR_API_KEY"
+```
+
+## Response Format
+
+All successful requests return a `200` status with JSON data. Failed requests return a `404` status with:
+
+```json
+{
+  "error": "Error message"
+}
+```

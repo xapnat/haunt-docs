@@ -1,0 +1,788 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Lookup & Leaderboard API",
+    "description": "API for user lookups and leaderboard functionality",
+    "license": {
+      "name": "MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://haunt.gg/api"
+    }
+  ],
+  "security": [
+    {
+      "apiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/lookup/username/{username}": {
+      "get": {
+        "description": "Retrieve user information by username",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The username to lookup",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lookup/uid/{uid}": {
+      "get": {
+        "description": "Retrieve user information by user ID",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "The user ID to lookup",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/leaderboard/views": {
+      "get": {
+        "description": "Get the views leaderboard",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of results to return",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Views leaderboard",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LeaderboardEntry"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/leaderboard/badges": {
+      "get": {
+        "description": "Get the badges leaderboard",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of results to return",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Badges leaderboard",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LeaderboardEntry"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/leaderboard/uid": {
+      "get": {
+        "description": "Get the UID leaderboard",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of results to return",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "UID leaderboard",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LeaderboardEntry"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "required": [
+          "id",
+          "username"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unique user identifier"
+          },
+          "username": {
+            "type": "string",
+            "description": "Username"
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true,
+            "description": "Display name"
+          },
+          "isVerified": {
+            "type": "boolean",
+            "description": "Whether the user is verified"
+          },
+          "isBanned": {
+            "type": "boolean",
+            "description": "Whether the user is banned"
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unix timestamp of account creation"
+          },
+          "discordId": {
+            "type": "string",
+            "description": "Discord user ID"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/UserProfile"
+          },
+          "badges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Badge"
+            },
+            "description": "User badges"
+          },
+          "customBadges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomBadge"
+            },
+            "description": "Custom user badges"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "description": "User social links"
+          },
+          "audios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Audio"
+            },
+            "description": "User audio tracks"
+          },
+          "viewCount": {
+            "type": "integer",
+            "description": "Total profile views"
+          }
+        }
+      },
+      "UserProfile": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "description": "User ID"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "uri",
+            "description": "Avatar URL"
+          },
+          "theme": {
+            "type": "string",
+            "description": "Profile theme"
+          },
+          "background": {
+            "type": "string",
+            "format": "uri",
+            "description": "Background media URL"
+          },
+          "banner": {
+            "type": "string",
+            "format": "uri",
+            "description": "Banner image URL"
+          },
+          "backgroundEffect": {
+            "type": "string",
+            "description": "Background effects as JSON string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "Profile description"
+          },
+          "discordPresence": {
+            "type": "boolean",
+            "description": "Show Discord presence"
+          },
+          "discordPresenceStatus": {
+            "type": "boolean",
+            "description": "Show Discord status"
+          },
+          "discordPresenceDecoration": {
+            "type": "boolean",
+            "description": "Show Discord decorations"
+          },
+          "discordPresenceClan": {
+            "type": "boolean",
+            "description": "Show Discord clan"
+          },
+          "discordPresenceBadges": {
+            "type": "boolean",
+            "description": "Show Discord badges"
+          },
+          "discordPresenceImage": {
+            "type": "boolean",
+            "description": "Show Discord image"
+          },
+          "discordPresenceDetails": {
+            "type": "boolean",
+            "description": "Show Discord details"
+          },
+          "discordServer": {
+            "type": "string",
+            "description": "Discord server preference"
+          },
+          "socialPreference": {
+            "type": "string",
+            "description": "Social media preference"
+          },
+          "robloxUsername": {
+            "type": "string",
+            "description": "Roblox username"
+          },
+          "telegramChannel": {
+            "type": "string",
+            "description": "Telegram channel"
+          },
+          "lastfmUsername": {
+            "type": "string",
+            "description": "Last.fm username"
+          },
+          "statsfmUsername": {
+            "type": "string",
+            "description": "Stats.fm username"
+          },
+          "location": {
+            "type": "string",
+            "description": "User location"
+          },
+          "profileBlur": {
+            "type": "integer",
+            "description": "Profile blur intensity"
+          },
+          "profileOpacity": {
+            "type": "integer",
+            "description": "Profile opacity"
+          },
+          "cursor": {
+            "type": "string",
+            "format": "uri",
+            "description": "Custom cursor URL"
+          },
+          "decoration": {
+            "type": "string",
+            "format": "uri",
+            "description": "Profile decoration URL"
+          },
+          "usernameEffect": {
+            "type": "string",
+            "description": "Username effects as JSON string"
+          },
+          "accentColor": {
+            "type": "string",
+            "description": "Accent color hex code"
+          },
+          "textColor": {
+            "type": "string",
+            "description": "Text color hex code"
+          },
+          "backgroundColor": {
+            "type": "string",
+            "description": "Background color hex code"
+          },
+          "iconColor": {
+            "type": "string",
+            "description": "Icon color hex code"
+          },
+          "primaryColor": {
+            "type": "string",
+            "description": "Primary color hex code"
+          },
+          "secondaryColor": {
+            "type": "string",
+            "description": "Secondary color hex code"
+          },
+          "Gradient": {
+            "type": "boolean",
+            "description": "Enable gradient"
+          },
+          "gradientAngle": {
+            "type": "integer",
+            "description": "Gradient angle"
+          },
+          "enterText": {
+            "type": "string",
+            "description": "Enter button text"
+          },
+          "volumeControl": {
+            "type": "boolean",
+            "description": "Enable volume control"
+          },
+          "parallax": {
+            "type": "boolean",
+            "description": "Enable parallax effect"
+          },
+          "badgeColor": {
+            "type": "string",
+            "description": "Badge color hex code"
+          },
+          "badgeMonochrome": {
+            "type": "boolean",
+            "description": "Monochrome badges"
+          },
+          "badgeGlow": {
+            "type": "boolean",
+            "description": "Badge glow effect"
+          },
+          "borderEnabled": {
+            "type": "boolean",
+            "description": "Enable border"
+          },
+          "borderColor": {
+            "type": "string",
+            "description": "Border color hex code"
+          },
+          "borderWidth": {
+            "type": "integer",
+            "description": "Border width"
+          },
+          "borderRadius": {
+            "type": "integer",
+            "description": "Border radius"
+          },
+          "borderOpacity": {
+            "type": "integer",
+            "description": "Border opacity"
+          },
+          "viewsEnabled": {
+            "type": "boolean",
+            "description": "Show view count"
+          },
+          "iconGlow": {
+            "type": "boolean",
+            "description": "Icon glow effect"
+          },
+          "iconMonochrome": {
+            "type": "boolean",
+            "description": "Monochrome icons"
+          },
+          "shuffleAudio": {
+            "type": "boolean",
+            "description": "Shuffle audio tracks"
+          },
+          "audioPlayer": {
+            "type": "boolean",
+            "description": "Show audio player"
+          },
+          "alias": {
+            "type": "string",
+            "description": "Profile alias"
+          },
+          "profileTitle": {
+            "type": "string",
+            "description": "Profile title"
+          },
+          "profileDescription": {
+            "type": "string",
+            "description": "Profile description"
+          },
+          "profileFavicon": {
+            "type": "string",
+            "format": "uri",
+            "description": "Profile favicon URL"
+          },
+          "profileColor": {
+            "type": "string",
+            "description": "Profile color hex code"
+          },
+          "profileBanner": {
+            "type": "string",
+            "format": "uri",
+            "description": "Profile banner URL"
+          },
+          "typewriterDescriptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Typewriter effect descriptions"
+          },
+          "typewriterEnabled": {
+            "type": "boolean",
+            "description": "Enable typewriter effect"
+          },
+          "cursorEffect": {
+            "type": "string",
+            "description": "Cursor effect type"
+          },
+          "cursorEffectEnabled": {
+            "type": "boolean",
+            "description": "Enable cursor effect"
+          },
+          "cursorEffectColor": {
+            "type": "string",
+            "description": "Cursor effect color"
+          },
+          "font": {
+            "type": "string",
+            "description": "Font family"
+          },
+          "badgeGlowStrength": {
+            "type": "integer",
+            "description": "Badge glow strength"
+          },
+          "iconGlowStrength": {
+            "type": "integer",
+            "description": "Icon glow strength"
+          },
+          "textGlowStrength": {
+            "type": "integer",
+            "description": "Text glow strength"
+          },
+          "profileFeedback": {
+            "type": "boolean",
+            "description": "Enable profile feedback"
+          },
+          "animatedTitle": {
+            "type": "boolean",
+            "description": "Enable animated title"
+          }
+        }
+      },
+      "Badge": {
+        "type": "object",
+        "required": [
+          "badgeId",
+          "enabled",
+          "obtainedAt"
+        ],
+        "properties": {
+          "badgeId": {
+            "type": "string",
+            "description": "Badge identifier"
+          },
+          "color": {
+            "type": "string",
+            "nullable": true,
+            "description": "Badge color override"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether badge is enabled"
+          },
+          "obtainedAt": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unix timestamp when badge was obtained"
+          }
+        }
+      },
+      "CustomBadge": {
+        "type": "object",
+        "required": [
+          "badgeName",
+          "imageUrl",
+          "enabled"
+        ],
+        "properties": {
+          "badgeName": {
+            "type": "string",
+            "description": "Custom badge name"
+          },
+          "imageUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Custom badge image URL"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether custom badge is enabled"
+          }
+        }
+      },
+      "Link": {
+        "type": "object",
+        "required": [
+          "title",
+          "url",
+          "active"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Link title"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Link URL"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Whether link is active"
+          },
+          "color": {
+            "type": "string",
+            "nullable": true,
+            "description": "Link color override"
+          }
+        }
+      },
+      "Audio": {
+        "type": "object",
+        "required": [
+          "title",
+          "audioUrl",
+          "coverUrl",
+          "duration",
+          "active"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Audio track title"
+          },
+          "audioUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Audio file URL"
+          },
+          "coverUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Cover image URL"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "Track duration in seconds"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Whether track is active"
+          }
+        }
+      },
+      "UserStats": {
+        "type": "object",
+        "properties": {
+          "views": {
+            "type": "integer",
+            "description": "Total views"
+          },
+          "badges": {
+            "type": "integer",
+            "description": "Total badges earned"
+          },
+          "rank": {
+            "type": "integer",
+            "description": "Overall rank"
+          }
+        }
+      },
+      "LeaderboardEntry": {
+        "type": "object",
+        "required": [
+          "rank",
+          "user",
+          "score"
+        ],
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "description": "Position in leaderboard"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "score": {
+            "type": "integer",
+            "description": "Score for this leaderboard type"
+          },
+          "change": {
+            "type": "integer",
+            "description": "Change in rank since last update"
+          }
+        }
+      },
+      "Error": {
+        "required": [
+          "error",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Error code"
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message"
+          },
+          "details": {
+            "type": "string",
+            "description": "Additional error details"
+          }
+        }
+      },
+      "NotFoundError": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "key"
+      }
+    }
+  }
+}

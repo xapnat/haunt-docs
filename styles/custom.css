@@ -1,0 +1,5 @@
+@media (min-width: 1536px) {
+  .\32xl\:max-w-2xl {
+    max-width: 64rem !important;
+  }
+}

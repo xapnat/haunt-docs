@@ -23,7 +23,16 @@
           {
             "group": "Guides",
             "pages": [
+              "guides/assets",
               "guides/discord"
+            ]
+          },
+          {
+            "group": "Troubleshooting",
+            "pages": [
+              "troubleshooting/assets",
+              "troubleshooting/discord",
+              "troubleshooting/login"
             ]
           }
         ]
@@ -54,16 +63,7 @@
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Community",
-          "href": "https://discord.gg/hauntbio",
-          "icon": "discord"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
     "light": "/logo/light.png",
@@ -87,6 +87,5 @@
       "discord": "https://discord.gg/hauntbio",
       "github": "https://github.com/curet-dev/docs"
     }
-  },
-  "css": ["/styles/custom.css"]
+  }
 }

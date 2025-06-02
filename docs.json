@@ -21,12 +21,17 @@
             ]
           },
           {
+            "group": "Customization",
+            "pages": [
+              "customization/assets",
+              "customization/badges",
+              "customization/links"
+            ]
+          },
+          {
             "group": "Guides",
             "pages": [
-              "guides/assets",
-              "guides/badges",
               "guides/discord",
-              "guides/links",
               "guides/premium",
               "guides/verification"
             ]

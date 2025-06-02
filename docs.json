@@ -25,8 +25,9 @@
             "pages": [
               "guides/assets",
               "guides/badges",
-              "guides/links",
               "guides/discord",
+              "guides/links",
+              "guides/premium",
               "guides/verification"
             ]
           },

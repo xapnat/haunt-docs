@@ -25,7 +25,11 @@
             "pages": [
               "customization/assets",
               "customization/badges",
-              "customization/links"
+              "customization/customization",
+              "customization/decoration",
+              "customization/links",
+              "customization/templates",
+              "customization/themes"
             ]
           },
           {
@@ -33,6 +37,7 @@
             "pages": [
               "guides/discord",
               "guides/premium",
+              "guides/security",
               "guides/verification"
             ]
           },

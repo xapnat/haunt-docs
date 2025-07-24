@@ -74,3 +74,31 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     max-width: 72rem !important;
   }
 }
+
+[role="tab"]:not([aria-selected="true"]) img {
+  filter: none !important;
+  opacity: 0.7 !important;
+  background: transparent !important;
+  mix-blend-mode: normal !important;
+}
+
+[role="tab"] img {
+  background: transparent !important;
+}
+
+.tab:not(.active) img {
+  filter: none !important;
+  opacity: 0.7 !important;
+  background: transparent !important;
+}
+
+.tab-button:not(.tab-button-active) img {
+  filter: none !important;
+  opacity: 0.7 !important;
+  background: transparent !important;
+}
+
+img[src*=".png"] {
+  background: transparent !important;
+  mix-blend-mode: normal !important;
+}

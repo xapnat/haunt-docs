@@ -377,9 +377,211 @@ Tap **"Clipboard"**. Now, the shortcut will use the image from your clipboard �
 
   <Tab title="Flameshot" icon="fire-flame-curved">
 
-<Tip>
-This section is not yet documented. You can help us by [contributing a guide for **Flameshot**](https://github.com/curet-dev/docs)!
-</Tip>
+<Accordion title="Install Flameshot">
+Install **Flameshot** using your distribution's package manager:
+
+<Tabs>
+  <Tab title="Ubuntu/Debian">
+    ```bash
+    sudo apt install flameshot
+    ```
+  </Tab>
+  <Tab title="Fedora">
+    ```bash
+    sudo dnf install flameshot
+    ```
+  </Tab>
+  <Tab title="Arch Linux">
+    ```bash
+    sudo pacman -S flameshot
+    ```
+  </Tab>
+  <Tab title="Other Distributions">
+    Check [Flameshot's GitHub releases](https://github.com/flameshot-org/flameshot/releases) for additional installation methods or use your distribution's package manager.
+  </Tab>
+</Tabs>
+</Accordion>
+
+<Steps>
+
+<Step title="Download Config Script">
+Visit [haunt.gg/dashboard/imagehost/overview](https://haunt.gg/dashboard/imagehost/overview), click the **"Download Config"** button, select **Flameshot**, and download the script file.
+
+<Info>
+The downloaded file will be a `.sh` script that handles screenshot capture and upload automatically.
+</Info>
+
+</Step>
+
+<Step title="Make Script Executable">
+Open a terminal and navigate to where you downloaded the script, then make it executable:
+
+<Info>
+It's **recommended** to create a dedicated directory for the script in your home folder for better organization:
+```bash
+mkdir -p ~/haunt
+mv haunt.gg_config.sh ~/haunt/
+cd ~/haunt
+```
+</Info>
+
+```bash
+chmod +x haunt.gg_config.sh
+```
+
+<Frame>
+  ![Make Flameshot script executable](../images/flameshot-01.png)
+</Frame>
+</Step>
+
+<Step title="Install Required Dependencies">
+The script requires `jq`, `curl`, and `xclip`. Install them if not already present:
+
+<Tabs>
+  <Tab title="Ubuntu/Debian" icon="ubuntu">
+    ```bash
+    sudo apt install jq curl xclip
+    ```
+  </Tab>
+  <Tab title="Fedora" icon="redhat">
+    ```bash
+    sudo dnf install jq curl xclip
+    ```
+  </Tab>
+  <Tab title="Arch Linux" icon="linux">
+    ```bash
+    sudo pacman -S jq curl xclip
+    ```
+  </Tab>
+  <Tab title="Other Distributions" icon="server">
+    Use your distribution's package manager to install:
+    - `jq` - JSON processor
+    - `curl` - HTTP client  
+    - `xclip` - Clipboard utility
+  </Tab>
+</Tabs>
+
+</Step>
+
+<Step title="Test the Script">
+Run the script to test if everything works:
+
+```bash
+./haunt.gg_config.sh
+```
+
+The Flameshot GUI should open, allowing you to take a screenshot. After capturing, the image URL will be copied to your clipboard and you'll see a notification.
+
+<Frame>
+  ![Test Flameshot script](../images/flameshot-02.png)
+</Frame>
+</Step>
+
+<Step title="Set Up Keyboard Shortcut (Optional)">
+For convenience, you can set up a keyboard shortcut to run the script:
+
+<Tabs>
+  <Tab title="GNOME/Ubuntu" icon="ubuntu">
+    1. Open **Settings** → **Keyboard** → **Keyboard Shortcuts**
+    2. Click **Custom Shortcuts** or **View and Customize Shortcuts**
+    3. Click the **+** button to add a new shortcut
+    4. **Name:** `Haunt.gg Screenshot`
+    5. **Command:** `~/haunt/haunt.gg_config.sh`
+    6. **Shortcut:** Press your desired key combination (e.g., `Ctrl+Shift+S`)
+  </Tab>
+  
+  <Tab title="KDE/Plasma" icon="computer">
+    1. Open **System Settings** → **Shortcuts**
+    2. Go to **Custom Shortcuts**
+    3. Right-click and select **New** → **Global Shortcut** → **Command/URL**
+    4. **Name:** `Haunt.gg Screenshot`
+    5. Go to **Trigger** tab and set your key combination (e.g., `Ctrl+Shift+S`)
+    6. Go to **Action** tab and set **Command:** `~/haunt/haunt.gg_config.sh`
+  </Tab>
+  
+  <Tab title="XFCE" icon="desktop">
+    1. Open **Settings** → **Keyboard**
+    2. Go to **Application Shortcuts** tab
+    3. Click **Add** button
+    4. **Command:** `~/haunt/haunt.gg_config.sh`
+    5. Press your desired key combination (e.g., `Ctrl+Shift+S`)
+  </Tab>
+  
+  <Tab title="i3/Hyprland/Sway" icon="window-maximize">
+    Add this line to your config file:
+    
+    **i3 (~/.config/i3/config):**
+    ```bash
+    bindsym $mod+Shift+s exec ~/haunt/haunt.gg_config.sh
+    ```
+    
+    **Hyprland (~/.config/hypr/hyprland.conf):**
+    ```bash
+    bind = SUPER_SHIFT, S, exec, ~/haunt/haunt.gg_config.sh
+    ```
+    
+    **Sway (~/.config/sway/config):**
+    ```bash
+    bindsym $mod+Shift+s exec ~/haunt/haunt.gg_config.sh
+    ```
+  </Tab>
+  
+  <Tab title="Command Line" icon="terminal">
+    You can also run the script directly from terminal:
+    ```bash
+    ~/haunt/haunt.gg_config.sh
+    ```
+    
+    Or create a shell alias by adding this to your `~/.bashrc` or `~/.zshrc`:
+    ```bash
+    alias screenshot='~/haunt/haunt.gg_config.sh'
+    ```
+    
+    Then reload your shell and use: `screenshot`
+  </Tab>
+</Tabs>
+
+</Step>
+
+</Steps>
+
+<Accordion title="Verify Upload Configuration">
+
+<Steps>
+
+<Step title="Check Script Contents">
+You can verify your API key and upload URL are correctly configured by viewing the script:
+
+```bash
+cat haunt.gg_config.sh
+```
+
+Look for these lines:
+- `auth="YOUR_API_KEY"` - Should contain your API key
+- `url="https://haunt.gg/api/imagehost/upload"` - Should be the upload endpoint
+</Step>
+
+<Step title="Test Upload">
+Take a test screenshot and verify:
+- Screenshot GUI opens properly
+- Image uploads successfully
+- URL is copied to clipboard
+- Notification appears confirming upload
+</Step>
+
+<Step title="Troubleshoot Dependencies">
+If the script fails, ensure all dependencies are installed:
+
+```bash
+which flameshot jq curl xclip
+```
+
+All commands should return valid paths.
+</Step>
+
+</Steps>
+
+</Accordion>
 
 </Tab>
 

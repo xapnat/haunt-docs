@@ -123,6 +123,29 @@ Yes. [**Read more**](../guides/affiliate).
 </Accordion>
 </AccordionGroup>
 
+<script dangerouslySetInnerHTML={{
+  __html: `
+    (function() {
+      function closeOtherAccordions() {
+        const accordions = document.querySelectorAll('details[open]');
+        if (accordions.length > 1) {
+          accordions.forEach((acc, index) => {
+            if (index !== accordions.length - 1) {
+              acc.removeAttribute('open');
+            }
+          });
+        }
+      }
+      
+      document.addEventListener('click', function(e) {
+        if (e.target.closest('summary')) {
+          setTimeout(closeOtherAccordions, 10);
+        }
+      });
+    })();
+  `
+}} />
+
 <Tip>
 💡 Feel free to [**contribute to this documentation**](https://github.com/curet-dev/docs) if you think an important question is missing.
 </Tip>

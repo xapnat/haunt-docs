@@ -5,7 +5,7 @@ description: "Find answers to common questions about our platform."
 icon: message-question
 ---
 
-<AccordionGroup allowMultiple={false}>
+<AccordionGroup>
 <Accordion title="What is haunt.gg?">
 **haunt.gg** is a biolink platform that allows you to create customizable profiles with features such as **social links, effects, themes, and more**.  
 It’s designed to help you showcase your online presence effectively.
@@ -126,20 +126,25 @@ Yes. [**Read more**](../guides/affiliate).
 <script dangerouslySetInnerHTML={{
   __html: `
     (function() {
-      function closeOtherAccordions() {
-        const accordions = document.querySelectorAll('details[open]');
-        if (accordions.length > 1) {
-          accordions.forEach((acc, index) => {
-            if (index !== accordions.length - 1) {
-              acc.removeAttribute('open');
-            }
-          });
-        }
-      }
+      let clickedAccordion = null;
       
       document.addEventListener('click', function(e) {
-        if (e.target.closest('summary')) {
-          setTimeout(closeOtherAccordions, 10);
+        const summary = e.target.closest('summary');
+        if (summary) {
+          clickedAccordion = summary.parentElement;
+          
+          // Wait for the accordion state to settle
+          setTimeout(() => {
+            const allAccordions = document.querySelectorAll('details');
+            
+            allAccordions.forEach(accordion => {
+              if (accordion !== clickedAccordion && accordion.hasAttribute('open')) {
+                accordion.removeAttribute('open');
+              }
+            });
+            
+            clickedAccordion = null;
+          }, 100);
         }
       });
     })();

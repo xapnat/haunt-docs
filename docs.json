@@ -17,7 +17,8 @@
             "group": "Overview",
             "pages": [
               "overview/introduction",
-              "overview/changelog"
+              "overview/changelog",
+              "overview/faq"
             ]
           },
           {

@@ -129,3 +129,9 @@ img[src*=".png"] {
     gap: 0.5rem;
     white-space: normal;
 }
+.Tabs > div:first-child {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    white-space: normal;
+}

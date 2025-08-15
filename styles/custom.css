@@ -123,50 +123,42 @@ img[src*=".png"] {
   }
 }
 
-[role="tablist"] {
+[role="tablist"],
+.tabs [role="tablist"],
+.tab-list,
+.tabs-header,
+div[class*="tab"] > div:first-child,
+div[class*="Tab"] > div:first-child,
+.tabs > div:first-child,
+[data-tabs] > div:first-child,
+div:has([role="tab"]),
+div:has(.tab),
+div:has([data-tab]) {
   display: flex !important;
   flex-wrap: wrap !important;
-  gap: 0 !important;
+  gap: 4px !important;
   overflow: visible !important;
+  max-width: none !important;
+  width: auto !important;
 }
 
-[role="tab"] {
+[role="tab"],
+.tab,
+.tab-button,
+[data-tab],
+button[class*="tab"],
+button[class*="Tab"],
+a[class*="tab"],
+a[class*="Tab"] {
   flex-shrink: 0 !important;
   white-space: nowrap !important;
+  margin: 2px !important;
 }
 
-.tabs [role="tablist"] {
-  display: flex !important;
+div[class*="scroll"] [role="tablist"],
+div[class*="scroll"] .tabs,
+div[class*="overflow"] [role="tablist"],
+div[class*="overflow"] .tabs {
+  overflow: visible !important;
   flex-wrap: wrap !important;
-  gap: 0 !important;
-  overflow: visible !important;
-}
-
-.tabs [role="tab"] {
-  flex-shrink: 0 !important;
-  white-space: nowrap !important;
-}
-
-.tab-list {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 0 !important;
-  overflow: visible !important;
-}
-
-.tab-list .tab {
-  flex-shrink: 0 !important;
-  white-space: nowrap !important;
-}
-
-.tabs-header {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 0 !important;
-  overflow: visible !important;
-}
-
-.tabs-header .tab {
-  flex-shrink: 0 !important;
-  white-space: nowrap !important;
 }

@@ -122,3 +122,31 @@ img[src*=".png"] {
     display: block;
   }
 }
+
+[role="tablist"] {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+[role="tablist"]::-webkit-scrollbar {
+  display: none;
+}
+.tab-scroll-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+}
+.tab-scroll-button.left {
+  left: 0;
+}
+.tab-scroll-button.right {
+  right: 0;
+}

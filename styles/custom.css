@@ -123,38 +123,3 @@ img[src*=".png"] {
   }
 }
 
-.tabs-wrapper {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-.tabs-wrapper .tabs-scroll-container {
-  overflow-x: auto;
-  display: flex;
-  flex: 1;
-  scroll-behavior: smooth;
-}
-.tabs-wrapper .tab-scroll {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  font-size: 20px;
-  background: #eee;
-  border: none;
-  cursor: pointer;
-  opacity: 0.8;
-  transition: opacity 0.2s;
-}
-.tabs-wrapper .tab-scroll:disabled {
-  opacity: 0;
-  cursor: default;
-}
-.desktop-only {
-  display: flex;
-}
-@media (max-width: 768px) {
-  .desktop-only { display: none; }
-}
-

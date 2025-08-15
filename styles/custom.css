@@ -123,32 +123,9 @@ img[src*=".png"] {
   }
 }
 
-.tab-container {
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
-.tab-scroll {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0 0.5rem;
-    user-select: none;
-}
-
 .tab-list {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    scroll-behavior: smooth;
-    white-space: nowrap;
-    flex: 1;
-}
-
-.tab-list::-webkit-scrollbar {
-    display: none;
+    white-space: normal;
 }

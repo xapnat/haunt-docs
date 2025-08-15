@@ -122,92 +122,13 @@ img[src*=".png"] {
     display: block;
   }
 }
-.tablist-scroller {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: .25rem;
-}
 
-.tablist-viewport {
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  flex: 1 1 auto;
-  position: relative;
-  padding-block: .125rem;
-  scrollbar-width: thin;
+[role="tablist"] {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    white-space: normal !important;
+    gap: .5rem !important;
 }
-
-.tablist-viewport::-webkit-scrollbar {
-  height: 6px;
-}
-.tablist-viewport::-webkit-scrollbar-track {
-  background: transparent;
-}
-.tablist-viewport::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,.25);
-  border-radius: 999px;
-}
-@media (prefers-color-scheme: dark) {
-  .tablist-viewport::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,.25);
-  }
-}
-
-.tab-scroll {
-  appearance: none;
-  border: none;
-  background: rgba(0,0,0,.05);
-  font-size: 16px;
-  line-height: 1;
-  padding: .4rem .5rem;
-  border-radius: .6rem;
-  cursor: pointer;
-  user-select: none;
-}
-.tab-scroll:disabled {
-  opacity: .35;
-  cursor: default;
-}
-@media (prefers-color-scheme: dark) {
-  .tab-scroll { background: rgba(255,255,255,.08); }
-}
-
-/* Nice edge fades to hint there’s more content */
-.tablist-viewport::before,
-.tablist-viewport::after {
-  content: "";
-  position: absolute;
-  top: 0; bottom: 0;
-  width: 16px;
-  pointer-events: none;
-}
-.tablist-viewport::before {
-  left: 0;
-  background: linear-gradient(to right, var(--fade-color, rgba(255,255,255,1)), transparent);
-}
-.tablist-viewport::after {
-  right: 0;
-  background: linear-gradient(to left, var(--fade-color, rgba(255,255,255,1)), transparent);
-}
-
-/* Try to auto-detect light/dark background for fades. Adjust if your site uses a solid color var */
-:root { --fade-color: rgba(255,255,255,1); }
-@media (prefers-color-scheme: dark) {
-  :root { --fade-color: rgba(20,20,20,1); }
-}
-
-/* Optional: keep mobile behavior; we still show arrows but you can hide them if you want */
-@media (max-width: 768px) {
-  .tab-scroll { display: none; }
-}
-
-/* Safety net: if JS can’t wrap, make any tablist scrollable directly */
-[role="tablist"], .tab-list, .tabs, [data-tab-list] {
-  /* harmless if already wrapped */
-  display: flex;
-  overflow-x: auto;
-  scrollbar-width: thin;
+[role="tab"] {
+    flex: 0 0 auto !important;
 }

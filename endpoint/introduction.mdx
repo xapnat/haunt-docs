@@ -15,6 +15,8 @@ The Haunt.gg API provides access to user profiles and leaderboard data. All endp
 
 **Base URL:** `https://haunt.gg/api`
 
+---
+
 ## Available Endpoints
 
 ### **Lookup Endpoints**
@@ -30,6 +32,8 @@ Access leaderboard rankings with user statistics.
 - `GET /leaderboard/badges` - Get users ranked by badge count
 - `GET /leaderboard/uid` - Get users ranked by UID
 
+---
+
 ## Authentication
 
 All API endpoints require an API key passed as a query parameter:
@@ -37,6 +41,19 @@ All API endpoints require an API key passed as a query parameter:
 ```bash
 curl "https://haunt.gg/api/lookup/username/curet?key=YOUR_API_KEY"
 ```
+
+<Info>
+You can request an API key via the [haunt.gg Discord server](https://discord.gg/hauntbio).
+
+To do so, open a support ticket and provide the following details about your project:
+
+- A short description of what your project is about
+- How you plan to use the API
+- Estimated usage numbers (e.g., users)
+- A link to your project’s website (if available)
+</Info>
+
+---
 
 ## Response Format
 

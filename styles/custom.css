@@ -122,3 +122,51 @@ img[src*=".png"] {
     display: block;
   }
 }
+
+[role="tablist"] {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0 !important;
+  overflow: visible !important;
+}
+
+[role="tab"] {
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+}
+
+.tabs [role="tablist"] {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0 !important;
+  overflow: visible !important;
+}
+
+.tabs [role="tab"] {
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+}
+
+.tab-list {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0 !important;
+  overflow: visible !important;
+}
+
+.tab-list .tab {
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+}
+
+.tabs-header {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0 !important;
+  overflow: visible !important;
+}
+
+.tabs-header .tab {
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+}

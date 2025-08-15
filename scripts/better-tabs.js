@@ -1,9 +1,9 @@
 document.addEventListener('keydown', (e) => {
-  const container = document.querySelector('.tabs-container');
-  if (!container) return;
+  const tabList = document.querySelector('[role="tablist"]');
+  if (!tabList) return;
   if (e.key === 'ArrowRight') {
-    container.scrollBy({ left: 100, behavior: 'smooth' });
+    tabList.scrollBy({ left: 100, behavior: 'smooth' });
   } else if (e.key === 'ArrowLeft') {
-    container.scrollBy({ left: -100, behavior: 'smooth' });
+    tabList.scrollBy({ left: -100, behavior: 'smooth' });
   }
 });

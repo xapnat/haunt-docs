@@ -5,8 +5,6 @@ description: Learn how to buy Premium and what features it has
 icon: crown
 ---
 
-import SimpleTabs, { Tab } from '../components/SimpleTabs.jsx';
-
 <div className="mobile-only">
 <Card title="Buy Premium" icon="circle-1" href="../guides/premium#how-to-buy-premium-on-haunt-gg" horizontal>
 Learn how to buy premium on haunt.gg
@@ -55,7 +53,10 @@ Check out all premium features.
 
 ## Premium Features
 
-<SimpleTabs>
+<div className="tab-scroll-wrapper">
+  <div className="tab-scroll-button" onclick="this.nextElementSibling.scrollBy({left:-100, behavior:'smooth'})">◀</div>
+  <div className="tabs-container">
+<Tabs>
     <Tab title="Alias">
         - You can create an Alias username that automatically redirects you to your main Bio Page
         <Frame>
@@ -150,7 +151,10 @@ Check out all premium features.
         </Frame>
     </Tab>
 
-</SimpleTabs>
+</Tabs>
+</div>
+  <div className="tab-scroll-button" onclick="this.previousElementSibling.scrollBy({left:100, behavior:'smooth'})">▶</div>
+</div>
 
 ---
 

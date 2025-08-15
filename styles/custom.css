@@ -123,12 +123,36 @@ img[src*=".png"] {
   }
 }
 
-[role="tablist"] {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    white-space: normal !important;
-    gap: .5rem !important;
+.tabs-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
-[role="tab"] {
-    flex: 0 0 auto !important;
+
+.tabs-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.tabs-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 4px;
+}
+
+.tab-scroll-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tab-scroll-button {
+  flex: 0 0 auto;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  background: #eee;
+  border-radius: 4px;
+}
+
+.tab-scroll-button:hover {
+  background: #ddd;
 }

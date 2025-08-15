@@ -123,30 +123,32 @@ img[src*=".png"] {
   }
 }
 
-[role="tablist"] {
-  display: flex;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
+.tab-container {
+    display: flex;
+    align-items: center;
+    position: relative;
 }
-[role="tablist"]::-webkit-scrollbar {
-  display: none;
+
+.tab-scroll {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    user-select: none;
 }
-.tab-scroll-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  background: rgba(0,0,0,0.5);
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  padding: 0.25rem 0.5rem;
-  font-size: 1rem;
+
+.tab-list {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+    white-space: nowrap;
+    flex: 1;
 }
-.tab-scroll-button.left {
-  left: 0;
-}
-.tab-scroll-button.right {
-  right: 0;
+
+.tab-list::-webkit-scrollbar {
+    display: none;
 }

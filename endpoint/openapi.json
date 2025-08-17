@@ -100,6 +100,7 @@
       "post": {
         "summary": "ImageHost Upload",
         "description": "Upload an image file to the image hosting service. Requires your ImageHost API key which can be found in your dashboard.",
+        "security": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -110,7 +111,7 @@
                 "properties": {
                   "key": {
                     "type": "string",
-                    "description": "Your ImageHost API key (found in your dashboard, different from regular API key)"
+                    "description": "Your ImageHost API key (found in your dashboard)"
                   },
                   "file": {
                     "type": "string",

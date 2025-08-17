@@ -80,6 +80,12 @@
               "endpoint/leaderboard/badges",
               "endpoint/leaderboard/uid"
             ]
+          },
+          {
+            "group": "ImageHost Endpoints",
+            "pages": [
+              "endpoint/imagehost/upload"
+            ]
           }
         ]
       }

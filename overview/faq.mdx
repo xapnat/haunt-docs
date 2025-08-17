@@ -130,25 +130,28 @@ You are able to use all characters in the English alphabet, dots(periods), under
 <script dangerouslySetInnerHTML={{
   __html: `
     (function() {
-      let clickedAccordion = null;
+      let isToggling = false;
       
       document.addEventListener('click', function(e) {
         const summary = e.target.closest('summary');
-        if (summary) {
-          clickedAccordion = summary.parentElement;
+        if (summary && !isToggling) {
+          const clickedAccordion = summary.parentElement;
+          const wasOpen = clickedAccordion.hasAttribute('open');
           
-          // Wait for the accordion state to settle
-          setTimeout(() => {
-            const allAccordions = document.querySelectorAll('details');
-            
+          isToggling = true;
+          
+          if (!wasOpen) {
+            const allAccordions = document.querySelectorAll('details[open]');
             allAccordions.forEach(accordion => {
-              if (accordion !== clickedAccordion && accordion.hasAttribute('open')) {
+              if (accordion !== clickedAccordion) {
                 accordion.removeAttribute('open');
               }
             });
-            
-            clickedAccordion = null;
-          }, 100);
+          }
+          
+          requestAnimationFrame(() => {
+            isToggling = false;
+          });
         }
       });
     })();

@@ -113,12 +113,67 @@ img[src*=".png"] {
   }
 }
 
-.mobile-only {
-  display: none;
+details {
+  position: relative;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-@media screen and (max-width: 768px) {
-  .mobile-only {
-    display: block;
-  }
+details::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: linear-gradient(135deg, #ff69b4, #ff1493, #ff69b4);
+  transition: width 0.3s ease;
+  z-index: 1;
+}
+
+details:hover::before {
+  width: 3px;
+}
+
+details[open]::before {
+  width: 4px;
+  background: linear-gradient(135deg, #ff1493, #ff69b4, #ff1493);
+}
+
+details:hover {
+  box-shadow: -3px 0 15px rgba(255, 105, 180, 0.12);
+}
+
+details[open] {
+  box-shadow: -4px 0 20px rgba(255, 20, 147, 0.18);
+}
+
+details summary,
+details > div {
+  position: relative;
+  z-index: 2;
+  margin-left: 4px;
+  transition: margin-left 0.3s ease;
+  padding-left: 8px;
+}
+
+details:hover summary,
+details:hover > div {
+  margin-left: 7px;
+  padding-left: 10px;
+}
+
+details[open] summary,
+details[open] > div {
+  margin-left: 8px;
+  padding-left: 12px;
+}
+
+details:hover summary {
+  color: #ff69b4;
+}
+
+details[open] summary {
+  color: #ff1493;
 }

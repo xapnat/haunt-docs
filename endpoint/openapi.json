@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Lookup & Leaderboard API",
-    "description": "API for user lookups and leaderboard functionality",
+    "description": "API for user lookups, leaderboard functionality, and image hosting",
     "license": {
       "name": "MIT"
     },
@@ -89,6 +89,76 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/imagehost/upload": {
+      "post": {
+        "summary": "ImageHost Upload",
+        "description": "Upload an image file to the image hosting service",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["key", "file"],
+                "properties": {
+                  "key": {
+                    "type": "string",
+                    "description": "Your API key"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The image file to upload"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Image uploaded successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImageUploadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid file or missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "File too large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -228,6 +298,33 @@
   },
   "components": {
     "schemas": {
+      "ImageUploadResponse": {
+        "type": "object",
+        "required": ["success", "url"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Whether the upload was successful"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the uploaded image"
+          },
+          "filename": {
+            "type": "string",
+            "description": "Generated filename for the uploaded image"
+          },
+          "size": {
+            "type": "integer",
+            "description": "File size in bytes"
+          },
+          "type": {
+            "type": "string",
+            "description": "MIME type of the uploaded file"
+          }
+        }
+      },
       "User": {
         "type": "object",
         "required": [

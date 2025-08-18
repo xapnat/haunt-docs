@@ -5,10 +5,18 @@ description: "Find answers to common questions about our platform."
 icon: message-question
 ---
 
+<div id="faq-search-container">
+  <input 
+    type="text" 
+    id="faq-search" 
+    placeholder="Search FAQ..." 
+  />
+</div>
+
 <AccordionGroup>
 <Accordion title="What is haunt.gg?">
 **haunt.gg** is a biolink platform that allows you to create customizable profiles with features such as **social links, effects, themes, and more**.  
-It’s designed to help you showcase your online presence effectively.
+It's designed to help you showcase your online presence effectively.
 </Accordion>
 
 <Accordion title="Is haunt.gg free?">
@@ -80,7 +88,7 @@ You can view all badges on our [**Badges page**](../customization/badges#badges)
 <Accordion title="Can I apply for staff?">
 Check our [**Apply page**](https://haunt.gg/dashboard/apply).  
 If an application for a **Staff position** is open, you can apply.  
-If there’s no application listed, staff applications are currently closed.
+If there's no application listed, staff applications are currently closed.
 </Accordion>
 
 <Accordion title="How can I secure my haunt.gg account?">
@@ -102,7 +110,7 @@ We appreciate your understanding that **prices are the same for everyone**.
 </Accordion>
 
 <Accordion title="Does haunt.gg have an API?">
-Yes. Our API lets you fetch **user** and **leaderboard** data. [**Read more**](https://help.haunt.gg/endpoint/introduction).
+Yes. Our API lets you fetch **user** and **leaderboard** data. [**Read more**](../endpoint/introduction.mdx).
 </Accordion>
 
 <Accordion title="Can I report content on haunt.gg?">
@@ -130,28 +138,123 @@ You are able to use all characters in the English alphabet, dots(periods), under
 <script dangerouslySetInnerHTML={{
   __html: `
     (function() {
-      let isToggling = false;
+      let clickedAccordion = null;
       
+      // Accordion functionality
       document.addEventListener('click', function(e) {
         const summary = e.target.closest('summary');
-        if (summary && !isToggling) {
-          const clickedAccordion = summary.parentElement;
-          const wasOpen = clickedAccordion.hasAttribute('open');
+        if (summary) {
+          clickedAccordion = summary.parentElement;
           
-          isToggling = true;
-          
-          if (!wasOpen) {
-            const allAccordions = document.querySelectorAll('details[open]');
+          // Wait for the accordion state to settle
+          setTimeout(() => {
+            const allAccordions = document.querySelectorAll('details');
+            
             allAccordions.forEach(accordion => {
-              if (accordion !== clickedAccordion) {
+              if (accordion !== clickedAccordion && accordion.hasAttribute('open')) {
                 accordion.removeAttribute('open');
               }
             });
-          }
+            
+            clickedAccordion = null;
+          }, 100);
+        }
+      });
+
+      // Search functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('faq-search');
+        const accordions = document.querySelectorAll('details');
+        
+        if (!searchInput) return;
+        
+        // Search through FAQ items
+        searchInput.addEventListener('input', function() {
+          const searchTerm = this.value.toLowerCase().trim();
           
-          requestAnimationFrame(() => {
-            isToggling = false;
+          accordions.forEach(accordion => {
+            const title = accordion.querySelector('summary').textContent.toLowerCase();
+            const content = accordion.querySelector('div').textContent.toLowerCase();
+            
+            if (searchTerm === '' || title.includes(searchTerm) || content.includes(searchTerm)) {
+              accordion.style.display = 'block';
+              
+              // Highlight matching text if search term exists
+              if (searchTerm !== '') {
+                highlightText(accordion, searchTerm);
+              } else {
+                removeHighlights(accordion);
+              }
+            } else {
+              accordion.style.display = 'none';
+              accordion.removeAttribute('open');
+            }
           });
+          
+          // Show "No results" message if no accordions are visible
+          updateNoResultsMessage(searchTerm);
+        });
+        
+        function highlightText(accordion, searchTerm) {
+          const summary = accordion.querySelector('summary');
+          const content = accordion.querySelector('div');
+          
+          [summary, content].forEach(element => {
+            const walker = document.createTreeWalker(
+              element,
+              NodeFilter.SHOW_TEXT,
+              null,
+              false
+            );
+            
+            const textNodes = [];
+            let node;
+            while (node = walker.nextNode()) {
+              textNodes.push(node);
+            }
+            
+            textNodes.forEach(textNode => {
+              const text = textNode.textContent;
+              const regex = new RegExp(
+  '(' + searchTerm.replace(/[\.\*\+\?\^\$\{\}\(\)\|\[\]\\]/g, '\\$&') + ')',
+  'gi'
+);
+
+              
+              if (regex.test(text)) {
+                const highlightedText = text.replace(regex, '<mark class="faq-search-highlight">$1</mark>');
+                const span = document.createElement('span');
+                span.innerHTML = highlightedText;
+                textNode.parentNode.replaceChild(span, textNode);
+              }
+            });
+          });
+        }
+        
+        function removeHighlights(accordion) {
+          const marks = accordion.querySelectorAll('mark');
+          marks.forEach(mark => {
+            const parent = mark.parentNode;
+            parent.replaceChild(document.createTextNode(mark.textContent), mark);
+            parent.normalize();
+          });
+        }
+        
+        function updateNoResultsMessage(searchTerm) {
+          let noResultsMsg = document.getElementById('no-results-message');
+          const visibleAccordions = Array.from(accordions).filter(acc => acc.style.display !== 'none');
+          
+          if (searchTerm !== '' && visibleAccordions.length === 0) {
+            if (!noResultsMsg) {
+              noResultsMsg = document.createElement('div');
+              noResultsMsg.id = 'no-results-message';
+              noResultsMsg.innerHTML = '🔍 No FAQ items found matching your search.';
+              document.querySelector('AccordionGroup').parentNode.appendChild(noResultsMsg);
+            }
+            noResultsMsg.style.display = 'block';
+          } else if (noResultsMsg) {
+            noResultsMsg.style.display = 'none';
+          }
         }
       });
     })();

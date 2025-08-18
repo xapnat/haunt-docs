@@ -129,7 +129,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ImageUploadResponse"
+                  "$ref": "#/components/schemas/ImageHostResponse"
+                },
+                "example": {
+                  "status": "success",
+                  "url": "https://carti.pics/v82AUOld"
                 }
               }
             }
@@ -139,7 +143,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ImageHostErrorResponse"
+                },
+                "example": {
+                  "status": "failed",
+                  "message": "Invalid file format"
                 }
               }
             }
@@ -149,7 +157,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ImageHostErrorResponse"
+                },
+                "example": {
+                  "status": "failed",
+                  "message": "Invalid API key"
                 }
               }
             }
@@ -159,7 +171,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ImageHostErrorResponse"
+                },
+                "example": {
+                  "status": "failed",
+                  "message": "File size exceeds limit"
                 }
               }
             }
@@ -299,30 +315,36 @@
   },
   "components": {
     "schemas": {
-      "ImageUploadResponse": {
+      "ImageHostResponse": {
         "type": "object",
-        "required": ["success", "url"],
+        "required": ["status", "url"],
         "properties": {
-          "success": {
-            "type": "boolean",
-            "description": "Whether the upload was successful"
+          "status": {
+            "type": "string",
+            "enum": ["success"],
+            "description": "Response status"
           },
           "url": {
             "type": "string",
             "format": "uri",
-            "description": "URL of the uploaded image"
-          },
-          "filename": {
+            "description": "URL of the uploaded image",
+            "example": "https://carti.pics/v82AUOld"
+          }
+        }
+      },
+      "ImageHostErrorResponse": {
+        "type": "object",
+        "required": ["status", "message"],
+        "properties": {
+          "status": {
             "type": "string",
-            "description": "Generated filename for the uploaded image"
+            "enum": ["failed"],
+            "description": "Response status"
           },
-          "size": {
-            "type": "integer",
-            "description": "File size in bytes"
-          },
-          "type": {
+          "message": {
             "type": "string",
-            "description": "MIME type of the uploaded file"
+            "description": "Error message",
+            "example": "Invalid API key"
           }
         }
       },

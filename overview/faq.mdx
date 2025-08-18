@@ -164,7 +164,7 @@ You are able to use all characters in the English alphabet, dots(periods), under
       // Search functionality
       document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('faq-search');
-        const accordions = document.querySelectorAll('details');
+        const accordions = document.querySelectorAll('details, [data-accordion]');
         
         if (!searchInput) return;
         
@@ -173,8 +173,13 @@ You are able to use all characters in the English alphabet, dots(periods), under
           const searchTerm = this.value.toLowerCase().trim();
           
           accordions.forEach(accordion => {
-            const title = accordion.querySelector('summary').textContent.toLowerCase();
-            const content = accordion.querySelector('div').textContent.toLowerCase();
+            const summary = accordion.querySelector('summary');
+            const contentDiv = accordion.querySelector('div, .accordion-content');
+            
+            if (!summary) return;
+            
+            const title = summary.textContent.toLowerCase();
+            const content = contentDiv ? contentDiv.textContent.toLowerCase() : '';
             
             if (searchTerm === '' || title.includes(searchTerm) || content.includes(searchTerm)) {
               accordion.style.display = 'block';
@@ -215,7 +220,7 @@ You are able to use all characters in the English alphabet, dots(periods), under
             
             textNodes.forEach(textNode => {
               const text = textNode.textContent;
-              const regex = new RegExp(
+const regex = new RegExp(
   '(' + searchTerm.replace(/[\.\*\+\?\^\$\{\}\(\)\|\[\]\\]/g, '\\$&') + ')',
   'gi'
 );
@@ -249,7 +254,10 @@ You are able to use all characters in the English alphabet, dots(periods), under
               noResultsMsg = document.createElement('div');
               noResultsMsg.id = 'no-results-message';
               noResultsMsg.innerHTML = '🔍 No FAQ items found matching your search.';
-              document.querySelector('AccordionGroup').parentNode.appendChild(noResultsMsg);
+              const accordionGroup = document.querySelector('AccordionGroup') || document.querySelector('[data-accordion-group]') || searchInput.parentNode.parentNode;
+              if (accordionGroup && accordionGroup.parentNode) {
+                accordionGroup.parentNode.appendChild(noResultsMsg);
+              }
             }
             noResultsMsg.style.display = 'block';
           } else if (noResultsMsg) {

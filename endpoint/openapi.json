@@ -129,11 +129,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ImageHostResponse"
-                },
-                "example": {
-                  "status": "success",
-                  "url": "https://carti.pics/v82AUOld"
+                  "$ref": "#/components/schemas/ImageUploadResponse"
                 }
               }
             }
@@ -143,11 +139,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ImageHostErrorResponse"
-                },
-                "example": {
-                  "status": "failed",
-                  "message": "Invalid file format"
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -157,11 +149,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ImageHostErrorResponse"
-                },
-                "example": {
-                  "status": "failed",
-                  "message": "Invalid API key"
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -171,11 +159,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ImageHostErrorResponse"
-                },
-                "example": {
-                  "status": "failed",
-                  "message": "File size exceeds limit"
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -315,36 +299,30 @@
   },
   "components": {
     "schemas": {
-      "ImageHostResponse": {
+      "ImageUploadResponse": {
         "type": "object",
-        "required": ["status", "url"],
+        "required": ["success", "url"],
         "properties": {
-          "status": {
-            "type": "string",
-            "enum": ["success"],
-            "description": "Response status"
+          "success": {
+            "type": "boolean",
+            "description": "Whether the upload was successful"
           },
           "url": {
             "type": "string",
             "format": "uri",
-            "description": "URL of the uploaded image",
-            "example": "https://carti.pics/v82AUOld"
-          }
-        }
-      },
-      "ImageHostErrorResponse": {
-        "type": "object",
-        "required": ["status", "message"],
-        "properties": {
-          "status": {
-            "type": "string",
-            "enum": ["failed"],
-            "description": "Response status"
+            "description": "URL of the uploaded image"
           },
-          "message": {
+          "filename": {
             "type": "string",
-            "description": "Error message",
-            "example": "Invalid API key"
+            "description": "Generated filename for the uploaded image"
+          },
+          "size": {
+            "type": "integer",
+            "description": "File size in bytes"
+          },
+          "type": {
+            "type": "string",
+            "description": "MIME type of the uploaded file"
           }
         }
       },
@@ -668,79 +646,104 @@
           "typewriterEnabled": {
             "type": "boolean",
             "description": "Enable typewriter effect"
-          }
-        }
-      },
-      "NotFoundError": {
-        "type": "object",
-        "required": ["message"],
-        "properties": {
-          "message": {
+          },
+          "cursorEffect": {
             "type": "string",
-            "description": "Error message"
-          }
-        }
-      },
-      "LeaderboardEntry": {
-        "type": "object",
-        "required": ["rank", "user"],
-        "properties": {
-          "rank": {
-            "type": "integer",
-            "description": "Leaderboard position"
+            "description": "Cursor effect type"
           },
-          "user": {
-            "$ref": "#/components/schemas/User"
+          "cursorEffectEnabled": {
+            "type": "boolean",
+            "description": "Enable cursor effect"
           },
-          "value": {
+          "cursorEffectColor": {
+            "type": "string",
+            "description": "Cursor effect color"
+          },
+          "font": {
+            "type": "string",
+            "description": "Font family"
+          },
+          "badgeGlowStrength": {
             "type": "integer",
-            "description": "The metric value (views, badges count, etc.)"
+            "description": "Badge glow strength"
+          },
+          "iconGlowStrength": {
+            "type": "integer",
+            "description": "Icon glow strength"
+          },
+          "textGlowStrength": {
+            "type": "integer",
+            "description": "Text glow strength"
+          },
+          "profileFeedback": {
+            "type": "boolean",
+            "description": "Enable profile feedback"
+          },
+          "animatedTitle": {
+            "type": "boolean",
+            "description": "Enable animated title"
           }
         }
       },
       "Badge": {
         "type": "object",
+        "required": [
+          "badgeId",
+          "enabled",
+          "obtainedAt"
+        ],
         "properties": {
-          "id": {
+          "badgeId": {
+            "type": "string",
+            "description": "Badge identifier"
+          },
+          "color": {
+            "type": "string",
+            "nullable": true,
+            "description": "Badge color override"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether badge is enabled"
+          },
+          "obtainedAt": {
             "type": "integer",
-            "description": "Badge ID"
-          },
-          "name": {
-            "type": "string",
-            "description": "Badge name"
-          },
-          "icon": {
-            "type": "string",
-            "format": "uri",
-            "description": "Badge icon URL"
+            "format": "int64",
+            "description": "Unix timestamp when badge was obtained"
           }
         }
       },
       "CustomBadge": {
         "type": "object",
+        "required": [
+          "badgeName",
+          "imageUrl",
+          "enabled"
+        ],
         "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Custom badge ID"
-          },
-          "name": {
+          "badgeName": {
             "type": "string",
             "description": "Custom badge name"
           },
-          "icon": {
+          "imageUrl": {
             "type": "string",
             "format": "uri",
-            "description": "Custom badge icon URL"
+            "description": "Custom badge image URL"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether custom badge is enabled"
           }
         }
       },
       "Link": {
         "type": "object",
+        "required": [
+          "title",
+          "url",
+          "active"
+        ],
         "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Link ID"
-          },
           "title": {
             "type": "string",
             "description": "Link title"
@@ -750,31 +753,124 @@
             "format": "uri",
             "description": "Link URL"
           },
-          "icon": {
+          "active": {
+            "type": "boolean",
+            "description": "Whether link is active"
+          },
+          "color": {
             "type": "string",
-            "description": "Link icon"
+            "nullable": true,
+            "description": "Link color override"
           }
         }
       },
       "Audio": {
         "type": "object",
+        "required": [
+          "title",
+          "audioUrl",
+          "coverUrl",
+          "duration",
+          "active"
+        ],
         "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Audio ID"
-          },
           "title": {
             "type": "string",
-            "description": "Audio title"
+            "description": "Audio track title"
           },
-          "url": {
+          "audioUrl": {
             "type": "string",
             "format": "uri",
             "description": "Audio file URL"
           },
+          "coverUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Cover image URL"
+          },
           "duration": {
             "type": "integer",
-            "description": "Audio duration in seconds"
+            "description": "Track duration in seconds"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Whether track is active"
+          }
+        }
+      },
+      "UserStats": {
+        "type": "object",
+        "properties": {
+          "views": {
+            "type": "integer",
+            "description": "Total views"
+          },
+          "badges": {
+            "type": "integer",
+            "description": "Total badges earned"
+          },
+          "rank": {
+            "type": "integer",
+            "description": "Overall rank"
+          }
+        }
+      },
+      "LeaderboardEntry": {
+        "type": "object",
+        "required": [
+          "rank",
+          "user",
+          "score"
+        ],
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "description": "Position in leaderboard"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "score": {
+            "type": "integer",
+            "description": "Score for this leaderboard type"
+          },
+          "change": {
+            "type": "integer",
+            "description": "Change in rank since last update"
+          }
+        }
+      },
+      "Error": {
+        "required": [
+          "error",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Error code"
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message"
+          },
+          "details": {
+            "type": "string",
+            "description": "Additional error details"
+          }
+        }
+      },
+      "NotFoundError": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message"
           }
         }
       }
@@ -782,8 +878,8 @@
     "securitySchemes": {
       "apiKeyAuth": {
         "type": "apiKey",
-        "in": "header",
-        "name": "Authorization"
+        "in": "query",
+        "name": "key"
       }
     }
   }
